@@ -28,10 +28,11 @@ Simply import the game component and drop it into your Svelte project:
 
 ## Available Games
 
-| Game             | Description                                                                                                                                 | Import Path                     |
-|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
-| **Tic Tac Toe**  | A classic strategy game where you face off against a bot on a 3x3 grid. Aim to get three of your marks in a row (horizontally, vertically, or diagonally) to win. | `svelte-games/TicTacToe.svelte` |
-| **Snap**         | A fast-paced matching game on a 4x4 grid. Race against the clock to find and match all pairs of cards before time runs out.                 | `svelte-games/Snap.svelte`      |
+Game | Description | Import Path                     
+--- | --- | ---
+**Tic Tac Toe** | A classic strategy game where you face off against a bot on a 3x3 grid. Aim to get three of your marks in a row (horizontally, vertically, or diagonally) to win. | `svelte-games/TicTacToe.svelte`
+**Snap** | A fast-paced matching game on a 4x4 grid. Race against the clock to find and match all pairs of cards before time runs out. | `svelte-games/Snap.svelte`
+**Snake** | A classic arcade game where you control a growing snake. Navigate the snake to eat food and grow longer, but avoid colliding with the walls or yourself. | `svelte-games/Snake.svelte`
 
 ## License
 
