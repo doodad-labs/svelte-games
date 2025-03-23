@@ -12,7 +12,7 @@ npm i svelte-games
 
 ```html
 <script lang="ts">
-    import { TicTacToe } from 'svelte-games';
+    import TicTacToe from 'svelte-games/TicTacToe.svelte';
 </script>
 
 <TicTacToe />
