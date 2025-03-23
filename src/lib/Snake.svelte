@@ -482,6 +482,27 @@
     });
 </script>
 
+<svelte:head>
+    <link rel="preload" href={apple} as="image" />
+    <link rel="preload" href={grapes} as="image" />
+    <link rel="preload" href={pineapple} as="image" />
+    <link rel="preload" href={strawberry} as="image" />
+    <link rel="preload" href={body_bottomleft} as="image" />
+    <link rel="preload" href={body_bottomright} as="image" />
+    <link rel="preload" href={body_horizontal} as="image" />
+    <link rel="preload" href={body_topleft} as="image" />
+    <link rel="preload" href={body_topright} as="image" />
+    <link rel="preload" href={body_vertical} as="image" />
+    <link rel="preload" href={head_down} as="image" />
+    <link rel="preload" href={head_left} as="image" />
+    <link rel="preload" href={head_right} as="image" />
+    <link rel="preload" href={head_up} as="image" />
+    <link rel="preload" href={tail_down} as="image" />
+    <link rel="preload" href={tail_left} as="image" />
+    <link rel="preload" href={tail_right} as="image" />
+    <link rel="preload" href={tail_up} as="image" />
+</svelte:head>
+
 <div class="snake">
     <div class="container">
         <canvas class="{loaded ? '' : 'hidden'}" bind:this={canvas} width={canvasSize} height={canvasSize}></canvas>
