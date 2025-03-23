@@ -250,6 +250,8 @@
     .controls {
         width: 100%;
         margin-top: 10px;
+        font-size: 14px;
+        opacity: 70%;
     }
 
     canvas {

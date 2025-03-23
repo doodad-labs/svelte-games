@@ -1,13 +1,13 @@
 <script lang="ts">
 
-    // Import images
-    import image1 from './images/img-1.png';
-    import image2 from './images/img-2.png';
-    import image3 from './images/img-3.png';
-    import image4 from './images/img-4.png';
-    import image5 from './images/img-5.png';
-    import image6 from './images/img-6.png';
-    import image7 from './images/img-7.png';
+    // @ts-ignore Import images
+    import image1 from './images/img-1.png'; // @ts-ignore
+    import image2 from './images/img-2.png'; // @ts-ignore
+    import image3 from './images/img-3.png'; // @ts-ignore
+    import image4 from './images/img-4.png'; // @ts-ignore
+    import image5 from './images/img-5.png'; // @ts-ignore
+    import image6 from './images/img-6.png'; // @ts-ignore
+    import image7 from './images/img-7.png'; // @ts-ignore
     import image8 from './images/img-8.png';
 
     // Array of images
@@ -129,7 +129,7 @@
         {#if timer}
             <span>Time: {timer.toFixed(2)}s</span>
         {:else}
-            <span>Click on a card to flip it</span>
+            <span>Click on a card to flip it.</span>
         {/if}
     </div>
 </div>
@@ -147,6 +147,8 @@
     .controls {
         width: 100%;
         margin-top: 10px;
+        font-size: 14px;
+        opacity: 70%;
     }
 
     .cards {
