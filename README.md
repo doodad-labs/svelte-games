@@ -1,30 +1,45 @@
 # svelte-games
 
-Small games designed for loading/wait screens that can just be imported as a component with the ability to customise the experience.
+**Small, interactive games designed for loading or wait screens.** Easily import these lightweight, customizable game components into your Svelte projects to keep users entertained during downtime.
 
-## Install
+[🎮 Play some of the games now!](https://doodad-labs.github.io/svelte-games/)
 
+## Quick Start
+
+### Installation
+
+Install the package via npm:
+
+```bash
+npm install svelte-games
 ```
-npm i svelte-games
-```
 
-## Usage
+### Usage
 
-```html
+Simply import the game component and drop it into your Svelte project:
+
+```svelte
 <script lang="ts">
-    import TicTacToe from 'svelte-games/TicTacToe.svelte';
+  import TicTacToe from 'svelte-games/TicTacToe.svelte';
 </script>
 
 <TicTacToe />
 ```
 
-## Games
+## Available Games
 
-Name | Description | Import
---- | --- | ---
-Tic Tac Toe | A classic strategy game where you face off against a bot in a 3x3 grid. Take turns marking spaces, aiming to be the first to get three of your marks in a row horizontally, vertically, or diagonally. | `svelte-games/TicTacToe.svelte`
-Snap | A fast-paced matching game set on a 4x4 grid. Race against the clock to find and match all pairs of cards before time runs out. | `svelte-games/Snap.svelte`
+| Game             | Description                                                                                                                                 | Import Path                     |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
+| **Tic Tac Toe**  | A classic strategy game where you face off against a bot on a 3x3 grid. Aim to get three of your marks in a row (horizontally, vertically, or diagonally) to win. | `svelte-games/TicTacToe.svelte` |
+| **Snap**         | A fast-paced matching game on a 4x4 grid. Race against the clock to find and match all pairs of cards before time runs out.                 | `svelte-games/Snap.svelte`      |
 
 ## License
 
-This project is licensed under the GPL-3.0 [License](LICENSE). See the LICENSE file for details.
+This project is licensed under the **GPL-3.0 License**. For more details, see the [LICENSE](LICENSE) file.
+
+## Contributing
+
+Contributions are welcome! If you have ideas for new games or improvements, feel free to open an issue or submit a pull request.
+
+Enjoy adding a touch of fun to your Svelte projects!
+*Built with ❤️ by [Doodad Labs](https://github.com/doodad-labs).*
