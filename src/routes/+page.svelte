@@ -35,7 +35,7 @@
         Created by <a href="https://github.com/doodad-labs/" class="underline text-blue-600">🧪 DoodadLabs</a>
     </span>
     <span>
-        Give use a star on
+        Give us a star on
         <a href="https://github.com/doodad-labs/svelte-games" class="underline text-blue-600">GitHub</a>
     </span>
 </div>
