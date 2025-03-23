@@ -4,14 +4,14 @@
     import { onMount } from 'svelte';
 
     // @ts-ignore Import images
-    import image1 from './images/img-1.png'; // @ts-ignore
-    import image2 from './images/img-2.png'; // @ts-ignore
-    import image3 from './images/img-3.png'; // @ts-ignore
-    import image4 from './images/img-4.png'; // @ts-ignore
-    import image5 from './images/img-5.png'; // @ts-ignore
-    import image6 from './images/img-6.png'; // @ts-ignore
-    import image7 from './images/img-7.png'; // @ts-ignore
-    import image8 from './images/img-8.png';
+    import image1 from './images/snap/img-1.png'; // @ts-ignore
+    import image2 from './images/snap/img-2.png'; // @ts-ignore
+    import image3 from './images/snap/img-3.png'; // @ts-ignore
+    import image4 from './images/snap/img-4.png'; // @ts-ignore
+    import image5 from './images/snap/img-5.png'; // @ts-ignore
+    import image6 from './images/snap/img-6.png'; // @ts-ignore
+    import image7 from './images/snap/img-7.png'; // @ts-ignore
+    import image8 from './images/snap/img-8.png';
 
     // Array of images
     const images = [image1, image2, image3, image4, image5, image6, image7, image8];
@@ -187,14 +187,16 @@
 
 </script>
 
+<!-- Preload images -->
+<svelte:head>
+    {#each images as image}
+        <link rel="preload" href={image} as="image" />
+    {/each}
+</svelte:head>
+
 <!-- Card Grid -->
 <div class="snap">
     <div class="cards">
-
-        <!-- Preload images -->
-        {#each images as image}
-            <img class="hide" src={image} alt="card-img" />
-        {/each}
     
         {#each cards as card}
             <button

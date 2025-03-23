@@ -32,7 +32,7 @@
         </div>
         <div class="flex justify-between text-sm text-gray-700 pb-4 sm:pb-0">
             <span>
-                Created by 🧪 <a href="https://github.com/doodad-labs/" class="underline">DoodadLabs</a>
+                Created by <a href="https://github.com/doodad-labs/" class="underline">DoodadLabs</a>
             </span>
 
             <span>
