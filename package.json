@@ -87,17 +87,16 @@
 		"svelte",
 		"component",
 		"svelte-component",
-		
 		"games",
 		"game-component",
-
 		"loading-games",
 		"loading-games-component",
-
 		"snake",
 		"snake-game",
-
 		"tic-tac-toe",
 		"tic-tac-toe-game"
-	]
+	],
+	"dependencies": {
+		"esm-env": "^1.2.2"
+	}
 }
