@@ -12,6 +12,7 @@
 	},
 	"homepage": "https://github.com/doodad-labs/svelte-games#readme",
 	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 0",
 		"dev": "vite dev",
 		"build": "vite build && npm run prepack",
 		"preview": "vite preview",
