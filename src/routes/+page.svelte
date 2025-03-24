@@ -4,8 +4,9 @@
     import Snap from '$lib/Snap.svelte';
     import TicTacToe from '$lib/TicTacToe.svelte';
     import Snake from '$lib/Snake.svelte';
+    import Sudoku from '$lib/Sudoku.svelte';
 
-    let selector: string = $state('snake');
+    let selector: string = $state('sudoku');
 
 </script>
 
@@ -17,6 +18,7 @@
                 <option value="snap">Snap</option>
                 <option value="tictactoe">Tic Tac Toe</option>
                 <option value="snake">Snake</option>
+                <option value="sudoku">Sudoku</option>
             </select>
             
             <div class="w-75">
@@ -26,6 +28,8 @@
                     <TicTacToe />
                 {:else if selector === 'snake'}
                     <Snake />
+                {:else if selector === 'sudoku'}
+                    <Sudoku />
                 {/if}
             </div>
             
