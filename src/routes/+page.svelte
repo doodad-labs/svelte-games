@@ -7,8 +7,9 @@
     import TicTacToe from "$lib/TicTacToe.svelte";
     import Snake from "$lib/Snake.svelte";
     import Sudoku from "$lib/Sudoku.svelte";
+    import Platformer from "$lib/Platformer.svelte";
 
-    let selector: string = $state("Snap");
+    let selector: string = $state("Platformer");
 </script>
 
 <svelte:head>
@@ -25,6 +26,7 @@
                 <option value="TicTacToe">Tic Tac Toe</option>
                 <option value="Snake">Snake</option>
                 <option value="Sudoku">Sudoku</option>
+                <option value="Platformer">Platformer</option>
             </select>
 
         </div>
@@ -39,6 +41,8 @@
                 <Snake />
             {:else if selector === 'Sudoku'}
                 <Sudoku />
+            {:else if selector === 'Platformer'}
+                <Platformer />
             {/if}
 
         </div>
