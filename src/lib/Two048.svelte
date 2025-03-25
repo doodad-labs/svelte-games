@@ -5,7 +5,7 @@
     // Upscale the game for better visibility
     const canvasSize = 300 * 3;
     const gridSize = canvasSize / 4 - 5;
-    const animationDuration = 150; // milliseconds
+    const animationDuration = 100; // milliseconds
 
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
@@ -606,11 +606,6 @@
             return;
         }
 
-        if (gameOver && (e.code === "Space" || e.key === " ")) {
-            initGame();
-            return;
-        }
-
         switch (e.key) {
             case "ArrowUp":
                 move("up");
@@ -679,6 +674,12 @@
         }
     }
 
+    function handleClick() {
+        if (gameOver) {
+            initGame();
+        }
+    }
+
     onMount(() => {
         if (!BROWSER) return;
 
@@ -725,6 +726,7 @@
             onmouseenter={() => isFocused = true}
             ontouchstart={handleTouchStart}
             ontouchend={handleTouchEnd}
+            onclick={handleClick}
             bind:this={canvas}
             width={canvasSize}
             height={canvasSize}

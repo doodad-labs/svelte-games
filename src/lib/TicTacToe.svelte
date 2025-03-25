@@ -1,6 +1,10 @@
 <script lang="ts">
     // Props
-    let { name }: { name?: string | null } = $props();
+    let { 
+        name, 
+    }: { 
+        name?: string | null
+    } = $props();
 
     // Game state
     let cells = Array.from({ length: 9 }, (_, i) => i); // Represents the 3x3 grid
@@ -141,7 +145,7 @@
                 {:else if o_cells.includes(cell)}
                     <!-- O icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
-                        <path opacity="1" d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Z"></path>
+                        <circle cx="128" cy="128" r="96"></circle>
                     </svg>
                 {/if}
             </button>

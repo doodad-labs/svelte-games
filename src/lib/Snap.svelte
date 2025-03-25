@@ -3,6 +3,16 @@
     import { BROWSER } from 'esm-env';
     import { onMount } from 'svelte';
 
+    const {
+        useEmoji,
+        images,
+    }: {
+        useEmoji?: boolean;
+        images?: string[];
+    } = $props();
+
+    // const useEmoji = true;
+
     // @ts-ignore Import images
     import image1 from './images/snap/img-1.png'; // @ts-ignore
     import image2 from './images/snap/img-2.png'; // @ts-ignore
@@ -13,8 +23,24 @@
     import image7 from './images/snap/img-7.png'; // @ts-ignore
     import image8 from './images/snap/img-8.png';
 
+    const emojis: string[] = [
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f496.png", // Heart
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f525.png", // Fire
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2728.png", // Sparkles
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f62d.png", // Loudly Crying Face
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2b50.png", // Star
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f480.png", // Skull
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f389.png", // Party Popper
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f680.png", // Rocket
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f440.png", // Eyes
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a9.png", // Poop
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f602.png", // Face with Tears of Joy
+    ]
+
+    const useCustomeImages = images && images.length >= 8;
+
     // Array of images
-    const images = [image1, image2, image3, image4, image5, image6, image7, image8];
+    let Images = useCustomeImages ? images : ( useEmoji ? getRandomElements(emojis, 8) : [image1, image2, image3, image4, image5, image6, image7, image8] );
 
     // State variables
     let flipped: number[] = $state([]); // Tracks currently flipped cards
@@ -24,6 +50,20 @@
     let timer: number | null = $state(null); // Timer
     let timerInterval: null | number; // Timer interval
     let record: number = $state(0); // Record time
+
+    function getRandomElements(arr: string[], count: number) {
+        // Make a copy of the original array to avoid modifying it
+        const shuffled = [...arr];
+        
+        // Fisher-Yates shuffle algorithm
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        
+        // Return the first 'count' elements
+        return shuffled.slice(0, count);
+    }
 
     /* 
         completely over engineered shuffle function that ensures no two adjacent cards are touching
@@ -190,9 +230,11 @@
 
 <!-- Preload images -->
 <svelte:head>
-    {#each images as image}
-        <link rel="preload" href={image} as="image" />
-    {/each}
+    {#if !useEmoji}
+        {#each Images as image}
+            <link rel="preload" href={image} as="image" />
+        {/each}
+    {/if}
 </svelte:head>
 
 <!-- Card Grid -->
@@ -213,7 +255,7 @@
                 <!-- Back of the card -->
                 <div class="view back-view">
                     {#if flipped.includes(card) || matched.includes(card)}
-                        <img src={images[card % 8]} alt="card-img" />
+                        <img src={Images[card % 8]} alt="card-img" />
                     {:else}
                         <span>Nice try! If you know what you're doing, why not contribute? <a href="https://github.com/doodad-labs/svelte-games">GitHub</a></span>
                     {/if}
@@ -295,7 +337,10 @@
     }
 
     .card .back-view img {
+        width: 45px;
+        height: 45px;
         max-width: 45px;
+        max-height: 45px;
     }
 
     .card .back-view span {

@@ -1,1 +1,2 @@
 @import 'tailwindcss';
+@import './emoji.css'; /* Cross plaform emojis */
