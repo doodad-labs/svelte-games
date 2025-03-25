@@ -9,6 +9,7 @@
     import Snake from "$lib/Snake.svelte";
     import Sudoku from "$lib/Sudoku.svelte";
     import Platformer from "$lib/Platformer.svelte";
+    import Two048 from "$lib/Two048.svelte";
 
     const games: {
         [key: string]: {
@@ -34,6 +35,10 @@
         },
         "Platformer": {
             component: Platformer,
+            published: false,
+        },
+        "2048": {
+            component: Two048,
             published: false,
         },
     };
