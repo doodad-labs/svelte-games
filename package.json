@@ -46,6 +46,10 @@
 		"./Snake.svelte": {
 			"types": "./dist/Snake.svelte.d.ts",
 			"svelte": "./dist/Snake.svelte"
+		},
+		"./Sudoku.svelte": {
+			"types": "./dist/Sudoku.svelte.d.ts",
+			"svelte": "./dist/Sudoku.svelte"
 		}
 	},
 	"typesVersions": {
@@ -58,6 +62,9 @@
 			],
 			"Snake": [
 				"./dist/Snake.d.ts"
+			],
+			"Sudoku": [
+				"./dist/Sudoku.d.ts"
 			]
 		}
 	},
@@ -98,6 +105,7 @@
 		"tic-tac-toe-game"
 	],
 	"dependencies": {
-		"esm-env": "^1.2.2"
+		"esm-env": "^1.2.2",
+		"sudoku-gen": "^1.0.2"
 	}
 }
