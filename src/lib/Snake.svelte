@@ -2,7 +2,7 @@
     import { BROWSER } from 'esm-env';
     import { onMount, onDestroy } from 'svelte';
 
-    // @ts-ignore Import images
+    // @ts-ignore Food images by Mozilla (https://emojipedia.org/mozilla)
     import apple from './images/snake/apple.png'; // @ts-ignore
     import grapes from './images/snake/grapes.png'; // @ts-ignore
     import pineapple from './images/snake/pineapple.png'; // @ts-ignore
@@ -50,8 +50,8 @@
     }
 
     // Upscale the game for better visibility
-    const canvasSize = 300 * 2;
-    const gridSize = 25 * 2;
+    const canvasSize = 300 * 3;
+    const gridSize = 25 * 3;
     const gridCount = canvasSize / gridSize;
 
     let canvas: HTMLCanvasElement;
@@ -280,7 +280,9 @@
     const gameOver = () => {
         if (snake.length > record) {
             record = snake.length;
-            localStorage.setItem('snake-record', record.toString());
+            if (BROWSER) {
+                localStorage.setItem('snake-record', record.toString());
+            };
         }
 
         resetGame();
@@ -396,6 +398,9 @@
     }
 
     onMount(async () => {
+
+        if (!BROWSER) return;
+
         ctx = canvas.getContext('2d')!;
 
         resetGame(); // Initialize the game with a random snake position

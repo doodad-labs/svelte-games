@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { getSudoku } from "sudoku-gen";
+    import { BROWSER } from "esm-env";
 
     let startedAt = Date.now();
     let game = $state(getSudoku("easy"));
@@ -22,7 +23,10 @@
         const time = Date.now() - startedAt;
         if (time < record.fastest || record.fastest === 0) record.fastest = time;
 
-        localStorage.setItem('sudoku-record', JSON.stringify(record));
+        if (BROWSER) {
+            localStorage.setItem('sudoku-record', JSON.stringify(record));
+        }
+
         won = true;
     }
 
@@ -44,6 +48,8 @@
     }
 
     onMount(() => {
+
+        if (!BROWSER) return;
         
         // Get record from local storage
         const storedRecord = localStorage.getItem('sudoku-record');

@@ -27,8 +27,8 @@
 
     /* 
         completely over engineered shuffle function that ensures no two adjacent cards are touching
-        (horizontally, vertically, or diagonally), we could just .sort(() => Math.random() - 0.5);
-        but thats boring.
+        (horizontally, vertically, or diagonally), we could just .sort(() => Math.random()); but
+        thats boring.
     */
     function shuffle(cards: number[]): number[] {
         const cardsAreTouching = (card1: number, card2: number) => {
@@ -100,7 +100,6 @@
 
         return cards;
     }
-
 
     // Reset the game
     function reset() {
@@ -176,6 +175,8 @@
     }
 
     onMount(() => {
+        
+        if (!BROWSER) return;
         
         // Get record from local storage
         const storedRecord = localStorage.getItem('snap-record');

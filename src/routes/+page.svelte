@@ -9,7 +9,6 @@
     import Sudoku from "$lib/Sudoku.svelte";
 
     let selector: string = $state("Snap");
-
 </script>
 
 <svelte:head>
@@ -18,6 +17,7 @@
 
 <div class="w-screen h-screen flex justify-center sm:items-center bg-white sm:bg-gray-100">
     <div class="flex flex-col justify-between sm:justify-baseline gap-2 w-full sm:w-auto">
+        
         <div class="sm:w-[calc(350px+2rem)] overflow-auto flex flex-col gap-4 bg-white pt-6 sm:pt-4 p-4 rounded-lg sm:border sm:border-gray-200">
         
             <select bind:value={selector} class="px-3 py-2 mt-0.5 w-full rounded border border-gray-200">
@@ -26,37 +26,45 @@
                 <option value="Snake">Snake</option>
                 <option value="Sudoku">Sudoku</option>
             </select>
-            </div>
-            <div class="sm:w-[calc(350px+2rem)] overflow-auto flex flex-col gap-4 bg-white p-4 rounded-lg sm:border sm:border-gray-200">
-            <div>
-                {#if selector === 'Snap'}
-                    <Snap />
-                {:else if selector === 'TicTacToe'}
-                    <TicTacToe />
-                {:else if selector === 'Snake'}
-                    <Snake />
-                {:else if selector === 'Sudoku'}
-                    <Sudoku />
-                {/if}
-            </div>
-            
+
         </div>
+
+        <div class="sm:w-[calc(350px+2rem)] overflow-auto flex flex-col gap-4 bg-white p-4 rounded-lg sm:border sm:border-gray-200">
+            
+            {#if selector === 'Snap'}
+                <Snap />
+            {:else if selector === 'TicTacToe'}
+                <TicTacToe />
+            {:else if selector === 'Snake'}
+                <Snake />
+            {:else if selector === 'Sudoku'}
+                <Sudoku />
+            {/if}
+
+        </div>
+
         <div class="hidden sm:block w-[calc(350px+2rem)] overflow-scroll rounded-lg bg-white border border-gray-200">
+            
             <HighlightSvelte class="w-fit overflow-auto" code={[
-                `<`, `script lang="ts">`, `\n`,
+                /* Have to do this mess otherwise the ts compiler has a tiff */
+                '<' + 'script lang="ts"> \n',
                 `\timport ${selector} from 'svelte-games/${selector}.svelte';`, `\n`,
-                `<`, `/script>`, `\n\n`,
+                '</script> \n\n',
                 `<${selector} />`,
             ].join("")} />
+
         </div>
+
         <div class="flex justify-between text-sm text-gray-700 pb-4 sm:pb-0 px-4 sm:px-0">
+
             <span>
                 Created by <a href="https://github.com/doodad-labs/" class="underline">DoodadLabs</a>
             </span>
-
             <span>
                 <a href="https://github.com/doodad-labs/svelte-games" class="underline">GitHub Repo</a> ⭐
             </span>
+            
         </div>
+
     </div>
 </div>
