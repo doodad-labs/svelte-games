@@ -26,7 +26,7 @@
             published: true,
             emoji: "black_joker",
             demoOptions: {
-                useEmoji: true,
+                useEmoji: Math.random() > 0.5,
             },
             options: {
                 useEmoji: 'boolean',

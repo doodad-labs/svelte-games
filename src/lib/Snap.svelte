@@ -14,33 +14,34 @@
     // const useEmoji = true;
 
     // @ts-ignore Import images
-    import image1 from './images/snap/img-1.png'; // @ts-ignore
-    import image2 from './images/snap/img-2.png'; // @ts-ignore
-    import image3 from './images/snap/img-3.png'; // @ts-ignore
-    import image4 from './images/snap/img-4.png'; // @ts-ignore
-    import image5 from './images/snap/img-5.png'; // @ts-ignore
-    import image6 from './images/snap/img-6.png'; // @ts-ignore
-    import image7 from './images/snap/img-7.png'; // @ts-ignore
-    import image8 from './images/snap/img-8.png';
+    import image1 from './images/snap/gem-1.png'; // @ts-ignore
+    import image2 from './images/snap/gem-2.png'; // @ts-ignore
+    import image3 from './images/snap/gem-3.png'; // @ts-ignore
+    import image4 from './images/snap/gem-4.png'; // @ts-ignore
+    import image5 from './images/snap/gem-5.png'; // @ts-ignore
+    import image6 from './images/snap/gem-6.png'; // @ts-ignore
+    import image7 from './images/snap/gem-7.png'; // @ts-ignore
+    import image8 from './images/snap/gem-8.png';
 
-    const emojis: string[] = [
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f496.png", // Heart
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f525.png", // Fire
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2728.png", // Sparkles
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f62d.png", // Loudly Crying Face
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2b50.png", // Star
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f480.png", // Skull
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f389.png", // Party Popper
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f680.png", // Rocket
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f440.png", // Eyes
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a9.png", // Poop
-        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f602.png", // Face with Tears of Joy
-    ]
+    // @ts-ignore Import emojis
+    import crying from './images/emojis/crying.png'; // @ts-ignore
+    import eyes from './images/emojis/eyes.png'; // @ts-ignore
+    import fire from './images/emojis/fire.png'; // @ts-ignore
+    import heart from './images/emojis/heart.png'; // @ts-ignore
+    import joy from './images/emojis/joy.png'; // @ts-ignore
+    import poop from './images/emojis/poop.png'; // @ts-ignore
+    import popper from './images/emojis/popper.png'; // @ts-ignore
+    import rocket from './images/emojis/rocket.png'; // @ts-ignore
+    import skull from './images/emojis/skull.png'; // @ts-ignore
+    import sparkles from './images/emojis/sparkles.png'; // @ts-ignore
+    import star from './images/emojis/star.png'; // @ts-ignore
 
-    const useCustomeImages = images && images.length >= 8;
+    const useCustomImages = images && images.length >= 8;
 
     // Array of images
-    let Images = useCustomeImages ? images : ( useEmoji ? getRandomElements(emojis, 8) : [image1, image2, image3, image4, image5, image6, image7, image8] );
+    let Emojis = [crying, eyes, fire, heart, joy, poop, popper, rocket, skull, sparkles, star];
+    let Images = [image1, image2, image3, image4, image5, image6, image7, image8];
+    let Cards = useCustomImages ? getRandomElements(images, 8) : ( useEmoji ? getRandomElements(Emojis, 8) : Images );
 
     // State variables
     let flipped: number[] = $state([]); // Tracks currently flipped cards
@@ -228,13 +229,11 @@
 
 </script>
 
-<!-- Preload images -->
+<!-- Preload Cards -->
 <svelte:head>
-    {#if !useEmoji}
-        {#each Images as image}
-            <link rel="preload" href={image} as="image" />
-        {/each}
-    {/if}
+    {#each Cards as image}
+        <link rel="preload" href={image} as="image" />
+    {/each}
 </svelte:head>
 
 <!-- Card Grid -->
@@ -255,7 +254,7 @@
                 <!-- Back of the card -->
                 <div class="view back-view">
                     {#if flipped.includes(card) || matched.includes(card)}
-                        <img src={Images[card % 8]} alt="card-img" />
+                        <img src={Cards[card % 8]} alt="card-img" />
                     {:else}
                         <span>Nice try! If you know what you're doing, why not contribute? <a href="https://github.com/doodad-labs/svelte-games">GitHub</a></span>
                     {/if}
