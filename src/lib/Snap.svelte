@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
 
     // Import images
     import image1 from './images/img-1.png';
