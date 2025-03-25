@@ -27,8 +27,8 @@
     <meta name="author" content="DoodadLabs" />
     
     <!-- Images -->
-    <meta property="og:image" content="https://opengraph.githubassets.com/aa026b83ed73ca65bde41451bf0c35375c82cdea7541d98757ed56c0add4f4e0/doodad-labs/svelte-games">
-    <meta name="twitter:image" content="https://opengraph.githubassets.com/aa026b83ed73ca65bde41451bf0c35375c82cdea7541d98757ed56c0add4f4e0/doodad-labs/svelte-games">
+    <meta property="og:image" content="https://opengraph.githubassets.com/2148a076ddf0c2391d02189007bce78de84603d9494f4f5d70586469627814af/doodad-labs/svelte-games">
+    <meta name="twitter:image" content="https://opengraph.githubassets.com/2148a076ddf0c2391d02189007bce78de84603d9494f4f5d70586469627814af/doodad-labs/svelte-games">
     <meta property="og:image:alt" content="A collection of game components built with Svelte.">
 
     {@html github}
