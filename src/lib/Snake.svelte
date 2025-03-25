@@ -292,9 +292,6 @@
         snake = [{ x: randomPosition.x, y: randomPosition.y }];
         direction = { x: 0, y: 0 };
 
-        // additional snake parts
-        snake.push({ x: randomPosition.x - 1, y: randomPosition.y });
-
         gameStarted = false;
         speedMultiplier = 1; // Reset speed multiplier
         
@@ -494,7 +491,7 @@
         {#if gameStarted}
             <div>
                 <span>Score: {snake.length}</span>
-                <span>Speed: {baseSpeed * speedMultiplier}</span>
+                <span>Speed: {200 - (baseSpeed * speedMultiplier)}</span>
             </div>
         {:else}
             <span>Swipe or use arrow keys to move.</span>
