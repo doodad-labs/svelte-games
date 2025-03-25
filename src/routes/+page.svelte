@@ -1,38 +1,53 @@
 <script lang="ts">
+    import "../app.css";
+    import { HighlightSvelte } from "svelte-highlight";
+    import github from "svelte-highlight/styles/github";
 
-    import '../app.css';
-    import Snap from '$lib/Snap.svelte';
-    import TicTacToe from '$lib/TicTacToe.svelte';
-    import Snake from '$lib/Snake.svelte';
-    import Sudoku from '$lib/Sudoku.svelte';
+    import Snap from "$lib/Snap.svelte";
+    import TicTacToe from "$lib/TicTacToe.svelte";
+    import Snake from "$lib/Snake.svelte";
+    import Sudoku from "$lib/Sudoku.svelte";
 
-    let selector: string = $state('snap');
+    let selector: string = $state("Snap");
 
 </script>
 
+<svelte:head>
+    {@html github}
+</svelte:head>
+
 <div class="w-screen h-screen flex justify-center sm:items-center bg-white sm:bg-gray-100">
     <div class="flex flex-col justify-between sm:justify-baseline gap-2 w-full sm:w-auto">
-        <div class="resize-none sm:resize sm:w-[calc(300px+2rem)] overflow-auto flex flex-col gap-4 bg-white pt-6 p-4 rounded-lg sm:border sm:border-gray-200">
+        <div class="sm:w-[calc(350px+2rem)] overflow-auto flex flex-col gap-4 bg-white pt-6 sm:pt-4 p-4 rounded-lg sm:border sm:border-gray-200">
         
             <select bind:value={selector} class="px-3 py-2 mt-0.5 w-full rounded border border-gray-200">
-                <option value="snap">Snap</option>
-                <option value="tictactoe">Tic Tac Toe</option>
-                <option value="snake">Snake</option>
-                <option value="sudoku">Sudoku</option>
+                <option value="Snap">Snap</option>
+                <option value="TicTacToe">Tic Tac Toe</option>
+                <option value="Snake">Snake</option>
+                <option value="Sudoku">Sudoku</option>
             </select>
-            
+            </div>
+            <div class="sm:w-[calc(350px+2rem)] overflow-auto flex flex-col gap-4 bg-white p-4 rounded-lg sm:border sm:border-gray-200">
             <div>
-                {#if selector === 'snap'}
+                {#if selector === 'Snap'}
                     <Snap />
-                {:else if selector === 'tictactoe'}
+                {:else if selector === 'TicTacToe'}
                     <TicTacToe />
-                {:else if selector === 'snake'}
+                {:else if selector === 'Snake'}
                     <Snake />
-                {:else if selector === 'sudoku'}
+                {:else if selector === 'Sudoku'}
                     <Sudoku />
                 {/if}
             </div>
             
+        </div>
+        <div class="hidden sm:block w-[calc(350px+2rem)] overflow-scroll rounded-lg bg-white border border-gray-200">
+            <HighlightSvelte class="w-fit overflow-auto" code={[
+                `<`, `script lang="ts">`, `\n`,
+                `\timport ${selector} from 'svelte-games/${selector}.svelte';`, `\n`,
+                `<`, `/script>`, `\n\n`,
+                `<${selector} />`,
+            ].join("")} />
         </div>
         <div class="flex justify-between text-sm text-gray-700 pb-4 sm:pb-0 px-4 sm:px-0">
             <span>
