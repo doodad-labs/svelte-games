@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
+    import { BROWSER } from 'esm-env';
     import { onMount, onDestroy } from 'svelte';
 
     // Upscale the game for better visibility
@@ -217,7 +217,7 @@
         if (gameInterval) {
             clearInterval(gameInterval);
         }
-        if (browser) {
+        if (BROWSER) {
             window.removeEventListener('keydown', handleKeyDown);
             canvas.removeEventListener('touchstart', handleTouchStart);
             canvas.removeEventListener('touchend', handleTouchEnd);
