@@ -517,7 +517,7 @@
         {#if gameStarted}
             <div>
                 <span>Score: {snake.length}</span>
-                <span>Speed: {200 - (baseSpeed * speedMultiplier)}</span>
+                <span>Speed: {(200 - (baseSpeed * speedMultiplier)).toFixed(0)}</span>
             </div>
         {:else}
             <span>Swipe or use arrow keys to move.</span>
