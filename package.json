@@ -1,6 +1,6 @@
 {
 	"name": "svelte-games",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"license": "GPL-3.0-only",
 	"author": "DoodadLabs",
 	"repository": {
@@ -41,6 +41,10 @@
 		"./TicTacToe.svelte": {
 			"types": "./dist/TicTacToe.svelte.d.ts",
 			"svelte": "./dist/TicTacToe.svelte"
+		},
+		"./Snake.svelte": {
+			"types": "./dist/Snake.svelte.d.ts",
+			"svelte": "./dist/Snake.svelte"
 		}
 	},
 	"typesVersions": {
@@ -50,6 +54,9 @@
 			],
 			"TicTacToe": [
 				"./dist/TicTacToe.d.ts"
+			],
+			"Snake": [
+				"./dist/Snake.d.ts"
 			]
 		}
 	},
@@ -77,6 +84,20 @@
 		"vite": "^6.0.0"
 	},
 	"keywords": [
-		"svelte"
+		"svelte",
+		"component",
+		"svelte-component",
+		
+		"games",
+		"game-component",
+
+		"loading-games",
+		"loading-games-component",
+
+		"snake",
+		"snake-game",
+
+		"tic-tac-toe",
+		"tic-tac-toe-game"
 	]
 }
