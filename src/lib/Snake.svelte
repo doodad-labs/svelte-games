@@ -526,12 +526,14 @@
 
 <style>
     .snake {
-        width: 300px;
+        min-width: 300px;
     }
 
     .snake .container {
-        width: 300px;
-        height: 300px;
+        min-width: 300px;
+        min-height: 300px;
+        width: 100%;
+        aspect-ratio: 1;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -551,8 +553,10 @@
     }
 
     .snake canvas {
-        width: 300px;
-        height: 300px;
+        min-width: 300px;
+        min-height: 300px;
+        width: 100%;
+        aspect-ratio: 1;
         background: white;
         border-radius: 0.25rem;
     }

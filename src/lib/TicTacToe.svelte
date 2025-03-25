@@ -176,12 +176,14 @@
 <!-- Styles -->
 <style>
     .tic-tac-toe {
-        width: 300px;
+        min-width: 300px;
     }
 
     .cells {
-        height: 300px;
-        width: 300px;
+        min-height: 300px;
+        min-width: 300px;
+        width: 100%;
+        aspect-ratio: 1;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);

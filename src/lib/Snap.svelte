@@ -236,12 +236,9 @@
 
 <!-- Styles -->
 <style>
-    .hide {
-        display: none;
-    }
 
     .snap {
-        width: 300px;
+        min-width: 300px;
     }
 
     .controls {
@@ -254,8 +251,10 @@
     }
 
     .cards {
-        height: 300px;
-        width: 300px;
+        min-height: 300px;
+        min-width: 300px;
+        width: 100%;
+        aspect-ratio: 1;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(4, 1fr);

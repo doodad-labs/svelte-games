@@ -109,13 +109,16 @@
 <!-- Styles -->
 <style>
     .sudoku {
-        width: 300px;
+        min-width: 300px;
     }
 
     .sudoku .board {
-        height: 300px;
-        width: 300px;
+        min-height: 300px;
+        min-width: 300px;
+        width: 100%;
+        aspect-ratio: 1;
         position: relative;
+        
     }
 
     .controls {
