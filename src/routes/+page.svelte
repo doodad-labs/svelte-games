@@ -6,7 +6,7 @@
     import Snake from '$lib/Snake.svelte';
     import Sudoku from '$lib/Sudoku.svelte';
 
-    let selector: string = $state('sudoku');
+    let selector: string = $state('snap');
 
 </script>
 
