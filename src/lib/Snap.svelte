@@ -182,7 +182,6 @@
         background: #fff;
         pointer-events: none;
         backface-visibility: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.25s linear;
         border: 1px solid rgba(0, 0, 0, 0.096);
     }

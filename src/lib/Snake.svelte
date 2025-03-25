@@ -244,6 +244,7 @@
     .snake canvas {
         width: 300px;
         height: 300px;
+        background: white;
     }
 
     .controls {
