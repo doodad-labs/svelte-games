@@ -307,10 +307,12 @@
         aspect-ratio: 1;
         background: white;
         border-radius: 0.25rem;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        touch-action: none; /* Disable default touch behaviors like scrolling */
     }
 
     .platformer canvas.focused {
-        border: 2px solid #2196F3;
+        border-color: #2196F3;
     }
 
     .platformer .hidden {

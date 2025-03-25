@@ -2,6 +2,7 @@
     import "../app.css";
     import { HighlightSvelte } from "svelte-highlight";
     import github from "svelte-highlight/styles/github";
+    import Select from 'svelte-select';
 
     import Snap from "$lib/Snap.svelte";
     import TicTacToe from "$lib/TicTacToe.svelte";
@@ -9,14 +10,43 @@
     import Sudoku from "$lib/Sudoku.svelte";
     import Platformer from "$lib/Platformer.svelte";
 
-    const published = [
-        "Snap",
-        "TicTacToe",
-        "Snake",
-        "Sudoku",
-    ];
+    const games: {
+        [key: string]: {
+            component: any,
+            published: boolean,
+        }
+    } = {
+        "Snap": {
+            component: Snap,
+            published: true,
+        },
+        "TicTacToe": {
+            component: TicTacToe,
+            published: true,
+        },
+        "Snake": {
+            component: Snake,
+            published: true,
+        },
+        "Sudoku": {
+            component: Sudoku,
+            published: true,
+        },
+        "Platformer": {
+            component: Platformer,
+            published: false,
+        },
+    };
 
-    let selector: string = $state("Platformer");
+    let selector: {
+        index: number,
+        value: string,
+        label: string,
+    } = $state({
+        index: 0,
+        value: "Snap",
+        label: "Snap",
+    });
 </script>
 
 <svelte:head>
@@ -27,6 +57,7 @@
     <meta name="author" content="DoodadLabs" />
     
     <!-- Images -->
+    <meta name="twitter:card" content="summary_large_image">
     <meta property="og:image" content="https://opengraph.githubassets.com/2148a076ddf0c2391d02189007bce78de84603d9494f4f5d70586469627814af/doodad-labs/svelte-games">
     <meta name="twitter:image" content="https://opengraph.githubassets.com/2148a076ddf0c2391d02189007bce78de84603d9494f4f5d70586469627814af/doodad-labs/svelte-games">
     <meta property="og:image:alt" content="A collection of game components built with Svelte.">
@@ -37,47 +68,44 @@
 <div class="w-screen h-screen flex justify-center sm:items-center bg-white sm:bg-gray-100">
     <div class="flex flex-col justify-between sm:justify-baseline gap-2 w-full sm:w-auto">
         
-        <div class="sm:w-[calc(350px+2rem)] overflow-auto flex flex-col gap-4 bg-white pt-6 sm:pt-4 p-4 rounded-lg sm:border sm:border-gray-200">
+        <div class="sm:w-[calc(350px+2rem)] flex flex-col gap-4 bg-white pt-6 sm:pt-4 p-4 rounded-lg sm:border sm:border-gray-200">
         
-            <select bind:value={selector} class="px-3 py-2 mt-0.5 w-full rounded border border-gray-200">
-                <option value="Snap">Snap</option>
-                <option value="TicTacToe">Tic Tac Toe</option>
-                <option value="Snake">Snake</option>
-                <option value="Sudoku">Sudoku</option>
-                <option value="Platformer">Platformer</option>
-            </select>
+            <Select class="z-50" clearable={false} showChevron bind:value={selector} items={Object.keys(games)}>
+                <div slot="item" class="flex place-items-center gap-2" let:item>
+                    {item.label}
+
+                    {#if games[item.value].published}
+                        <span class="text-xs {selector.value === item.value ? "bg-blue-400 text-white" : "text-blue-700 bg-blue-300/20"} px-2 py-1 rounded-md">In Production</span>
+                    {:else}
+                        <span class="text-xs {selector.value === item.value ? "bg-gray-200/20 text-white" : "text-gray-700 bg-gray-300/20"} px-2 py-1 rounded-md">In Development</span>
+                    {/if}
+
+                </div>
+            </Select>
 
         </div>
 
-        <div class="sm:w-[calc(350px+2rem)] overflow-auto flex flex-col gap-4 bg-white p-4 rounded-lg sm:border sm:border-gray-200">
-            
-            {#if selector === 'Snap'}
-                <Snap />
-            {:else if selector === 'TicTacToe'}
-                <TicTacToe />
-            {:else if selector === 'Snake'}
-                <Snake />
-            {:else if selector === 'Sudoku'}
-                <Sudoku />
-            {:else if selector === 'Platformer'}
-                <Platformer />
-            {/if}
+        {#if games[selector.value]}
+            {@const Component = games[selector.value].component}
 
-        </div>
+            <div class="sm:w-[calc(350px+2rem)] overflow-auto flex flex-col gap-4 bg-white p-4 rounded-lg sm:border sm:border-gray-200">
+                <Component />
+            </div>
+        {/if}
 
         <div class="hidden sm:block w-[calc(350px+2rem)] overflow-scroll rounded-lg bg-white border border-gray-200">
             
-            {#if published.includes(selector)}
-                <HighlightSvelte class="w-fit overflow-auto" code={[
-                    /* Have to do this mess otherwise the ts compiler has a tiff */
-                    '<' + 'script lang="ts"> \n',
-                    `\timport ${selector} from 'svelte-games/${selector}.svelte';`, `\n`,
-                    '</script> \n\n',
-                    `<${selector} />`,
-                ].join("")} />
+            {#if games[selector.value]}
+                {#if games[selector.value].published}
+                    <HighlightSvelte class="w-fit overflow-auto" code={`import ${selector.value} from 'svelte-games/${selector.value}.svelte';`} />
+                {:else}
+                    <div class="p-4 text-gray-500">
+                        <p>Selected game is not yet in production.</p>
+                    </div>
+                {/if}
             {:else}
                 <div class="p-4 text-gray-500">
-                    <p>Selected game is still in development and not yet in production.</p>
+                    <p>Please select a game from the dropdown.</p>
                 </div>
             {/if}
 
