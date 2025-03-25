@@ -187,11 +187,6 @@
         }
     }
 
-    // Detect mobile device
-    function checkIfMobile() {
-        isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
-
     onMount(() => {
         if (!BROWSER) return;
 
@@ -208,10 +203,11 @@
         loaded = true;
 
         // Check if mobile
-        checkIfMobile();
+        isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
         // Initial platforms
         generateInitialPlatforms();
+        render();
     });
 
     onDestroy(() => {
@@ -263,7 +259,11 @@
                 <span>Score: {score}</span>
             </div>
         {:else}
-            <span>Swipe or use arrow keys to move.</span>
+            {#if isMobile}
+                <span>Tap to jump</span>
+            {:else}
+                <span>Press "space" while hovering</span>
+            {/if}
         {/if}
 
         {#if record}

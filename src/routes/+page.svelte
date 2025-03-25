@@ -9,10 +9,28 @@
     import Sudoku from "$lib/Sudoku.svelte";
     import Platformer from "$lib/Platformer.svelte";
 
+    const published = [
+        "Snap",
+        "TicTacToe",
+        "Snake",
+        "Sudoku",
+    ];
+
     let selector: string = $state("Platformer");
 </script>
 
 <svelte:head>
+
+    <title>Svelte Games</title>
+    <meta name="description" content="A collection of game components built with Svelte." />
+    <meta name="keywords" content="svelte, games, collection" />
+    <meta name="author" content="DoodadLabs" />
+    
+    <!-- Images -->
+    <meta property="og:image" content="https://opengraph.githubassets.com/aa026b83ed73ca65bde41451bf0c35375c82cdea7541d98757ed56c0add4f4e0/doodad-labs/svelte-games">
+    <meta name="twitter:image" content="https://opengraph.githubassets.com/aa026b83ed73ca65bde41451bf0c35375c82cdea7541d98757ed56c0add4f4e0/doodad-labs/svelte-games">
+    <meta property="og:image:alt" content="A collection of game components built with Svelte.">
+
     {@html github}
 </svelte:head>
 
@@ -49,13 +67,19 @@
 
         <div class="hidden sm:block w-[calc(350px+2rem)] overflow-scroll rounded-lg bg-white border border-gray-200">
             
-            <HighlightSvelte class="w-fit overflow-auto" code={[
-                /* Have to do this mess otherwise the ts compiler has a tiff */
-                '<' + 'script lang="ts"> \n',
-                `\timport ${selector} from 'svelte-games/${selector}.svelte';`, `\n`,
-                '</script> \n\n',
-                `<${selector} />`,
-            ].join("")} />
+            {#if published.includes(selector)}
+                <HighlightSvelte class="w-fit overflow-auto" code={[
+                    /* Have to do this mess otherwise the ts compiler has a tiff */
+                    '<' + 'script lang="ts"> \n',
+                    `\timport ${selector} from 'svelte-games/${selector}.svelte';`, `\n`,
+                    '</script> \n\n',
+                    `<${selector} />`,
+                ].join("")} />
+            {:else}
+                <div class="p-4 text-gray-500">
+                    <p>Selected game is still in development and not yet in production.</p>
+                </div>
+            {/if}
 
         </div>
 
