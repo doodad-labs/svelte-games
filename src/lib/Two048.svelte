@@ -4,8 +4,8 @@
 
     // Upscale the game for better visibility
     const canvasSize = 300 * 3;
-    const gridSize = canvasSize / 4;
-    const animationDuration = 100; // milliseconds
+    const gridSize = (canvasSize / 4) - 5;
+    const animationDuration = 150; // milliseconds
 
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
@@ -17,6 +17,8 @@
     let isMobile: boolean = $state(false);
     let isFocused: boolean = $state(false);
     let gameOver: boolean = $state(false);
+
+    const cornerRadius = 10;
 
     // Game state
     let grids = [
@@ -36,6 +38,7 @@
         progress: number;
         merged?: boolean;
         mergedFrom?: {x: number, y: number}[];
+        type?: 'spawn' | 'move'; // Add this line
     }[] = $state([]);
     let lastFrameTime: number = $state(0);
     let animationRequestId: number | null = $state(null);
@@ -57,7 +60,7 @@
         2048: '#edc22e'
     };
 
-    // Initialize the game
+    // Initialise the game
     function initGame() {
         grids = [
             [0, 0, 0, 0],
@@ -71,36 +74,40 @@
         pendingNewTile = false;
         addRandomTile();
         addRandomTile();
-        render();
+        render(true);
     }
 
     // Add a random tile (2 or 4) to an empty cell
     function addRandomTile() {
-        const emptyCells: [number, number][] = [];
-        
-        for (let y = 0; y < 4; y++) {
-            for (let x = 0; x < 4; x++) {
-                if (grids[y][x] === 0) {
-                    emptyCells.push([x, y]);
-                }
+    const emptyCells: [number, number][] = [];
+    
+    for (let y = 0; y < 4; y++) {
+        for (let x = 0; x < 4; x++) {
+            if (grids[y][x] === 0) {
+                emptyCells.push([x, y]);
             }
         }
-        
-        if (emptyCells.length > 0) {
-            const [x, y] = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            grids[y][x] = Math.random() < 0.9 ? 2 : 4;
-            
-            // Add appear animation for new tile
-            animations.push({
-                value: grids[y][x],
-                fromX: x,
-                fromY: y,
-                toX: x,
-                toY: y,
-                progress: 0
-            });
-        }
     }
+    
+    if (emptyCells.length > 0) {
+        const [x, y] = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        grids[y][x] = Math.random() < 0.9 ? 2 : 4;
+        
+        // Add appear animation for new tile with type 'spawn'
+        animations.push({
+            value: grids[y][x],
+            fromX: x,
+            fromY: y,
+            toX: x,
+            toY: y,
+            progress: 0,
+            type: 'spawn' // Mark as spawn animation
+        });
+        
+        // Start animation if not already running
+        startAnimation();
+    }
+}
 
     // Check if the game is over
     function checkGameOver() {
@@ -130,46 +137,42 @@
 
     // Animation loop
     function animate(timestamp: number) {
-        if (!lastFrameTime) lastFrameTime = timestamp;
-        const deltaTime = timestamp - lastFrameTime;
-        lastFrameTime = timestamp;
+    if (!lastFrameTime) lastFrameTime = timestamp;
+    const deltaTime = timestamp - lastFrameTime;
+    lastFrameTime = timestamp;
 
-        let allAnimationsComplete = true;
+    let allAnimationsComplete = true;
 
-        // Update all animations
-        for (let i = 0; i < animations.length; i++) {
-            const anim = animations[i];
-            anim.progress += deltaTime / animationDuration;
-            
-            if (anim.progress < 1) {
-                allAnimationsComplete = false;
-            } else {
-                anim.progress = 1;
-            }
-        }
-
-        render();
-
-        if (!allAnimationsComplete) {
-            animationRequestId = requestAnimationFrame(animate);
+    // Update all animations
+    for (let i = 0; i < animations.length; i++) {
+        const anim = animations[i];
+        // For spawn animations (where from and to positions are the same)
+        // we want them to complete normally
+        anim.progress += deltaTime / animationDuration;
+        
+        if (anim.progress < 1) {
+            allAnimationsComplete = false;
         } else {
-            animationRequestId = null;
-            // Add new tile after animations complete if pending
-            if (pendingNewTile) {
-                pendingNewTile = false;
-                addRandomTile();
-                gameOver = checkGameOver();
-
-                if (gameOver) {
-                    if (score > record) {
-                        record = score;
-                        localStorage.setItem('2048-record', record.toString());
-                    }
-                }
-                render();
-            }
+            anim.progress = 1;
         }
     }
+
+    render();
+
+    if (!allAnimationsComplete) {
+        animationRequestId = requestAnimationFrame(animate);
+    } else {
+        animationRequestId = null;
+        // Add new tile after animations complete if pending
+        if (pendingNewTile) {
+            pendingNewTile = false;
+            addRandomTile();
+            gameOver = checkGameOver();
+
+            render();
+        }
+    }
+}
 
     // Start animation if not already running
     function startAnimation() {
@@ -180,45 +183,47 @@
     }
 
     // Render the game board
-    function render() {
+    function render(firstRender: boolean = false) {
         if (!ctx) return;
         
         // Clear canvas
         ctx.clearRect(0, 0, canvasSize, canvasSize);
         
         // Draw background
-        ctx.fillStyle = '#bbada0';
+        ctx.fillStyle = '#9e948a';
         ctx.fillRect(0, 0, canvasSize, canvasSize);
-        
-        // Draw grid lines
-        ctx.strokeStyle = '#9e948a';
-        ctx.lineWidth = 15;
-        
-        for (let i = 0; i <= 4; i++) {
-            // Vertical lines
-            ctx.beginPath();
-            ctx.moveTo(i * gridSize, 0);
-            ctx.lineTo(i * gridSize, canvasSize);
-            ctx.stroke();
-            
-            // Horizontal lines
-            ctx.beginPath();
-            ctx.moveTo(0, i * gridSize);
-            ctx.lineTo(canvasSize, i * gridSize);
-            ctx.stroke();
-        }
-        
-        // Draw static tiles (not currently animating)
+
+        // Draw grid cells
+        ctx.fillStyle = '#cdc1b4';
+
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
-                const value = grids[y][x];
-                // Only draw if not part of any animation
-                const isAnimating = animations.some(anim => 
-                    (anim.toX === x && anim.toY === y && anim.progress === 1 && !anim.merged) ||
-                    (anim.mergedFrom && anim.mergedFrom.some(pos => pos.x === x && pos.y === y))
+                ctx.beginPath();
+                ctx.roundRect(
+                    x * gridSize + 20,
+                    y * gridSize + 20,
+                    gridSize - 20,
+                    gridSize - 20,
+                    cornerRadius
                 );
-                if (value > 0 && !isAnimating) {
-                    drawTile(x, y, value);
+                ctx.fill();
+            }
+        }
+
+        
+        // Draw static tiles (not currently animating)
+        if (firstRender) {
+            for (let y = 0; y < 4; y++) {
+                for (let x = 0; x < 4; x++) {
+                    const value = grids[y][x];
+                    // Only draw if not part of any animation
+                    const isAnimating = animations.some(anim => 
+                        (anim.toX === x && anim.toY === y && anim.progress === 1 && !anim.merged) ||
+                        (anim.mergedFrom && anim.mergedFrom.some(pos => pos.x === x && pos.y === y))
+                    );
+                    if (value > 0 && !isAnimating) {
+                        drawTile(x, y, value);
+                    }
                 }
             }
         }
@@ -227,19 +232,7 @@
         for (const anim of animations) {
             const x = anim.fromX + (anim.toX - anim.fromX) * anim.progress;
             const y = anim.fromY + (anim.toY - anim.fromY) * anim.progress;
-            
-            // Scale for appear animation
-            let scale = 1;
-            if (anim.fromX === anim.toX && anim.fromY === anim.toY && anim.progress < 1) {
-                scale = anim.progress;
-            }
-            
-            ctx.save();
-            const centerX = x * gridSize + gridSize / 2;
-            const centerY = y * gridSize + gridSize / 2;
-            ctx.translate(centerX, centerY);
-            ctx.scale(scale, scale);
-            ctx.translate(-centerX, -centerY);
+        
             
             drawTile(x, y, anim.value);
             ctx.restore();
@@ -277,26 +270,53 @@
 
     // Helper function to draw a tile
     function drawTile(x: number, y: number, value: number) {
-        // Draw tile background
-        ctx.fillStyle = tileColors[value] || '#3c3a32';
-        ctx.fillRect(
-            x * gridSize + 10,
-            y * gridSize + 10,
-            gridSize - 20,
-            gridSize - 20
-        );
-        
-        // Draw tile value
-        ctx.fillStyle = value <= 4 ? '#776e65' : '#f9f6f2';
-        ctx.font = `bold ${gridSize / 3}px Arial`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(
-            value.toString(),
-            x * gridSize + gridSize / 2,
-            y * gridSize + gridSize / 2
-        );
+    // Check if this is a spawn animation
+    const spawnAnim = animations.find(anim => 
+        anim.type === 'spawn' && 
+        anim.toX === x && 
+        anim.toY === y && 
+        anim.progress < 1
+    );
+    
+    ctx.save();
+    
+    if (spawnAnim) {
+        // Apply scaling transform only for spawn animations
+        const scale = spawnAnim.progress;
+        const centerX = x * gridSize + 20 + (gridSize - 20) / 2;
+        const centerY = y * gridSize + 20 + (gridSize - 20) / 2;
+        ctx.translate(centerX, centerY);
+        ctx.scale(scale, scale);
+        ctx.translate(-centerX, -centerY);
     }
+    
+    // Draw tile background
+    ctx.fillStyle = tileColors[value] || '#3c3a32';
+
+    ctx.beginPath();
+    ctx.roundRect(
+        x * gridSize + 20,
+        y * gridSize + 20,
+        gridSize - 20,
+        gridSize - 20,
+        cornerRadius
+    );
+    ctx.fill();
+    
+    // Draw tile value
+    ctx.fillStyle = value <= 4 ? '#776e65' : '#f9f6f2';
+    const fontSize = gridSize / 3;
+    ctx.font = `bold ${fontSize}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(
+        value.toString(),
+        ((x * gridSize) + 10) + gridSize / 2,
+        ((y * gridSize) + 10) + gridSize / 2
+    );
+    
+    ctx.restore();
+}
 
     // Move tiles in a direction
     function move(direction: 'up' | 'down' | 'left' | 'right') {
@@ -309,7 +329,7 @@
         
         if (direction === 'left' || direction === 'right') {
             for (let y = 0; y < 4; y++) {
-                let row = newGrid[y].filter(val => val !== 0);
+                let row = newGrid[y].filter((val: number) => val !== 0);
                 const originalPositions: number[] = [];
                 
                 // Track original positions for animation
@@ -335,7 +355,7 @@
                 }
                 
                 // Remove zeros
-                row = row.filter(val => val !== 0);
+                row = row.filter((val: number) => val !== 0);
                 
                 // Pad with zeros
                 while (row.length < 4) {
@@ -388,13 +408,14 @@
                             moved = true;
                         }
                         animations.push({
-                            value: newValue,
-                            fromX: originalPositions[originalIndex],
-                            fromY: y,
-                            toX: newX,
-                            toY: y,
-                            progress: 0
-                        });
+    value: newValue,
+    fromX: originalPositions[originalIndex],
+    fromY: y,
+    toX: newX,
+    toY: y,
+    progress: 0,
+    type: 'move' // Mark as move animation
+});
                         originalIndex++;
                     }
                 }
@@ -489,13 +510,14 @@
                             moved = true;
                         }
                         animations.push({
-                            value: newValue,
-                            fromX: x,
-                            fromY: originalPositions[originalIndex],
-                            toX: x,
-                            toY: newY,
-                            progress: 0
-                        });
+    value: newValue,
+    fromX: x,
+    fromY: originalPositions[originalIndex],
+    toX: x,
+    toY: newY,
+    progress: 0,
+    type: 'move' // Mark as move animation
+});
                         originalIndex++;
                     }
                 }
@@ -510,6 +532,11 @@
             const maxTile = Math.max(...grids.flat());
             if (maxTile > score) {
                 score = maxTile;
+
+                if (record < score && BROWSER) {
+                    record = score;
+                    localStorage.setItem('2048-record', record.toString())
+                }
             }
             
             pendingNewTile = true;
@@ -522,6 +549,7 @@
     // Handle keyboard input
     function handleKeyDown(e: KeyboardEvent) {
         if (!isFocused) return;
+        if (animationRequestId !== null) return;
         
         if (!gameStarted) {
             if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
@@ -616,9 +644,13 @@
         // Check if mobile
         isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        // Initialize canvas
+        // Initialise canvas
         ctx = canvas.getContext('2d')!;
         loaded = true;
+
+        // Initialise game
+        gameStarted = true;
+        initGame();
 
         // Initial render
         render();

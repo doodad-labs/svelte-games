@@ -49,8 +49,8 @@
         label: string,
     } = $state({
         index: 0,
-        value: "Snap",
-        label: "Snap",
+        value: "2048",
+        label: "2048",
     });
 </script>
 
@@ -98,20 +98,16 @@
             </div>
         {/if}
 
-        <div class="hidden sm:block w-[calc(350px+2rem)] overflow-scroll rounded-lg bg-white border border-gray-200">
+        <div class="hidden sm:block w-[calc(350px+2rem)] overflow-auto rounded-lg bg-white border border-gray-200">
             
             {#if games[selector.value]}
                 {#if games[selector.value].published}
                     <HighlightSvelte class="w-fit overflow-auto" code={`import ${selector.value} from 'svelte-games/${selector.value}.svelte';`} />
                 {:else}
-                    <div class="p-4 text-gray-500">
-                        <p>Selected game is not yet in production.</p>
-                    </div>
+                    <p class="p-4 text-gray-500">Selected game is not yet in production.</p>
                 {/if}
             {:else}
-                <div class="p-4 text-gray-500">
-                    <p>Please select a game from the dropdown.</p>
-                </div>
+                <p class="p-4 text-gray-500">Please select a game from the dropdown.</p>
             {/if}
 
         </div>
