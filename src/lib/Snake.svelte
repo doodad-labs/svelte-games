@@ -9,15 +9,16 @@
 
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
-    let snake: { x: number; y: number }[] = [];
+    let snake: { x: number; y: number }[] = $state([]);
     let food = { x: 5, y: 5 };
     let direction = { x: 0, y: 0 };
     let gameInterval: number | null = null;
-    let gameStarted = false;
+    let gameStarted: boolean = $state(false);
     let baseSpeed = 200; // Base speed in milliseconds
     let speedMultiplier = 1; // Multiplier to adjust speed based on snake length
     let touchStartX = 0; // X coordinate of touch start
     let touchStartY = 0; // Y coordinate of touch start
+    let record: number = $state(0)
 
     const drawRect = (x: number, y: number, color: string) => {
         ctx.fillStyle = color;
@@ -58,13 +59,13 @@
 
         // Check for collision with walls
         if (head.x < 0 || head.x >= gridCount || head.y < 0 || head.y >= gridCount) {
-            resetGame();
+            gameOver();
             return;
         }
 
         // Check for collision with itself
         if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-            resetGame();
+            gameOver();
             return;
         }
 
@@ -103,6 +104,15 @@
         } while (snake.some(segment => segment.x === position.x && segment.y === position.y));
 
         return position;
+    };
+
+    const gameOver = () => {
+        if (snake.length > record) {
+            record = snake.length;
+            localStorage.setItem('snake-record', record.toString());
+        }
+
+        resetGame();
     };
 
     const resetGame = () => {
@@ -211,6 +221,13 @@
         // Add touch event listeners for mobile support
         canvas.addEventListener('touchstart', handleTouchStart);
         canvas.addEventListener('touchend', handleTouchEnd);
+
+        // get record from local storage
+        const storedRecord = localStorage.getItem('snake-record');
+        if (storedRecord) {
+            record = parseFloat(storedRecord);
+        }
+
     });
 
     onDestroy(() => {
@@ -233,6 +250,10 @@
         {:else}
             <span>Swipe or use arrow keys to move.</span>
         {/if}
+
+        {#if record}
+            <span>Record: {record}</span>
+        {/if}
     </div>
 </div>
 
@@ -252,6 +273,8 @@
         margin-top: 10px;
         font-size: 14px;
         opacity: 70%;
+        display: flex;
+        justify-content: space-between;
     }
 
     canvas {
