@@ -53,7 +53,7 @@
     // Bot's turn logic
     async function bots_turn() {
         if (turn !== 'o') return; // Not the bot's turn
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate thinking time
+        await new Promise(resolve => setTimeout(resolve, Math.max(100, Math.min(500, Math.random()*1000)))); // Simulate thinking time (100ms - 500ms)
         if (winner) return; // Game already won
 
         const availableCells = cells.filter(cell => !x_cells.includes(cell) && !o_cells.includes(cell));
@@ -150,21 +150,26 @@
 
     <!-- Game controls -->
     <div class="controls">
-        {#if winner}
-            {#if winner === 'draw'}
-                <span>It's a draw!</span>
+
+        {#if x_cells.length}
+            {#if winner}
+                {#if winner === 'draw'}
+                    <span>It's a draw!</span>
+                {:else}
+                    <span class="ellipsis">
+                        <span>{winner === 'x' ? (name ? name : 'You') : 'Bot'}</span> win{name ? 's' : ''}!
+                    </span>
+                {/if}
             {:else}
                 <span class="ellipsis">
-                    <span>{winner === 'x' ? (name ? name : 'You') : 'Bot'}</span> win{name ? 's' : ''}!
+                    <span>{turn === 'x' ? (name ? `${name}'s` : 'Your') : 'Bots'}</span> turn.
                 </span>
             {/if}
-        {:else}
-            <span class="ellipsis">
-                <span>{turn === 'x' ? (name ? `${name}'s` : 'Your') : 'Bots'}</span> turn.
-            </span>
-        {/if}
 
-        <button onclick={reset}>Reset</button>
+            <button onclick={reset}>Reset</button>
+        {:else}
+            <span>Click a square to start.</span>
+        {/if}
     </div>
 </div>
 
@@ -189,6 +194,13 @@
         align-items: center;
         width: 100%;
         margin-top: 10px;
+        font-size: 14px;
+        opacity: 70%;
+    }
+
+    .controls button {
+        cursor: pointer;
+        text-decoration: underline;
     }
 
     .controls .ellipsis {
