@@ -192,7 +192,7 @@
         
         // Draw grid lines
         ctx.strokeStyle = '#9e948a';
-        ctx.lineWidth = 5;
+        ctx.lineWidth = 15;
         
         for (let i = 0; i <= 4; i++) {
             // Vertical lines
@@ -280,10 +280,10 @@
         // Draw tile background
         ctx.fillStyle = tileColors[value] || '#3c3a32';
         ctx.fillRect(
-            x * gridSize + 5,
-            y * gridSize + 5,
-            gridSize - 10,
-            gridSize - 10
+            x * gridSize + 10,
+            y * gridSize + 10,
+            gridSize - 20,
+            gridSize - 20
         );
         
         // Draw tile value
