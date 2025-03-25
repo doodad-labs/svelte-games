@@ -1,6 +1,6 @@
 {
 	"name": "svelte-games",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"license": "GPL-3.0-only",
 	"author": "DoodadLabs",
 	"repository": {
@@ -50,6 +50,10 @@
 		"./Sudoku.svelte": {
 			"types": "./dist/Sudoku.svelte.d.ts",
 			"svelte": "./dist/Sudoku.svelte"
+		},
+		"./Two048.svelte": {
+			"types": "./dist/Two048.svelte.d.ts",
+			"svelte": "./dist/Two048.svelte"
 		}
 	},
 	"typesVersions": {
@@ -65,6 +69,9 @@
 			],
 			"Sudoku": [
 				"./dist/Sudoku.d.ts"
+			],
+			"Two048": [
+				"./dist/Two048.d.ts"
 			]
 		}
 	},

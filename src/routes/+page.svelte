@@ -12,9 +12,10 @@
     import Two048 from "$lib/Two048.svelte";
 
     const games: {
-        [key: string]: {
-            component: any,
-            published: boolean,
+        [key: string]: {        // Game name (Same as the import/file name)
+            label?: string,     // Optional label for the dropdown
+            component: any,     // Component
+            published: boolean, // Whether the game is published or not
         }
     } = {
         "Snap": {
@@ -37,11 +38,12 @@
             component: Platformer,
             published: false,
         },
-        "2048": {
+        "Two048": {
+            label: "2048",
             component: Two048,
-            published: false,
+            published: true,
         },
-    };
+    }; 
 
     let selector: {
         index: number,
@@ -49,8 +51,8 @@
         label: string,
     } = $state({
         index: 0,
-        value: "2048",
-        label: "2048",
+        value: "Two048",
+        label: "Two048",
     });
 </script>
 
@@ -75,7 +77,7 @@
         
         <div class="sm:w-[calc(350px+2rem)] flex flex-col gap-4 bg-white pt-6 sm:pt-4 p-4 rounded-lg sm:border sm:border-gray-200">
         
-            <Select class="z-50" clearable={false} showChevron bind:value={selector} items={Object.keys(games)}>
+            <Select class="z-50" clearable={false} showChevron bind:value={selector} items={Object.keys(games).map(key => ({ value: key, label: games[key].label || key }))}>
                 <div slot="item" class="flex place-items-center gap-2" let:item>
                     {item.label}
 

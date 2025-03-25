@@ -34,6 +34,7 @@ Game | Description | Import Path
 **Snap** | A fast-paced matching game on a 4x4 grid. Race against the clock to find and match all pairs of cards before time runs out. | `svelte-games/Snap.svelte`
 **Snake** | A classic arcade game where you control a growing snake. Navigate the snake to eat food and grow longer, but avoid colliding with the walls or yourself. | `svelte-games/Snake.svelte`
 **Sudoku** | A challenging logic-based number puzzle. Fill a 9x9 grid so that each row, column, and 3x3 subgrid contains all digits from 1 to 9 without repetition. | `svelte-games/Sudoku.svelte`
+**2048** | A addictive sliding tile puzzle game where you combine numbered tiles on a 4x4 grid. Swipe to move tiles, merge matching numbers to reach the elusive 2048 tile—or go even higher! | `svelte-games/Two048.svelte`
 
 ## License
 
