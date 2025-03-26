@@ -90,7 +90,6 @@
 
         // Step 4: If player has two opposite corners, force a side move to prevent fork
         const cornerCells = [0, 2, 6, 8];
-        const playerCorners = cornerCells.filter(cell => x_cells.includes(cell));
         const oppositePairs = [[0, 8], [2, 6]];
         
         let hasOppositeCorners = false;
