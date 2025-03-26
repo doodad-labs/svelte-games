@@ -88,16 +88,65 @@
             return;
         }
 
-        // Step 4: Take a corner if available
+        // Step 4: If player has two opposite corners, force a side move to prevent fork
         const cornerCells = [0, 2, 6, 8];
+        const playerCorners = cornerCells.filter(cell => x_cells.includes(cell));
+        const oppositePairs = [[0, 8], [2, 6]];
+        
+        let hasOppositeCorners = false;
+        for (const [a, b] of oppositePairs) {
+            if (x_cells.includes(a) && x_cells.includes(b)) {
+                hasOppositeCorners = true;
+                break;
+            }
+        }
+        
+        // If player has opposite corners, take a side to prevent fork
+        if (hasOppositeCorners) {
+            const sideCells = [1, 3, 5, 7];
+            const availableSides = sideCells.filter(cell => availableCells.includes(cell));
+            if (availableSides.length > 0) {
+                claim(availableSides[0], 'o'); // Take first available side (could randomize if preferred)
+                return;
+            }
+        }
+
+        // Step 5: Take a corner that doesn't give player a fork opportunity
         const availableCorners = cornerCells.filter(cell => availableCells.includes(cell));
         if (availableCorners.length > 0) {
-            const randomCorner = availableCorners[Math.floor(Math.random() * availableCorners.length)];
-            claim(randomCorner, 'o');
+            // Prefer corners adjacent to player's corners to create our own potential forks
+            let bestCorner = null;
+            
+            // Look for corners adjacent to our existing corners
+            for (const corner of availableCorners) {
+                // If we have a corner, try to take an adjacent corner to create a potential fork
+                if (o_cells.some(oc => Math.abs(oc - corner) === 2 || Math.abs(oc - corner) === 6)) {
+                    bestCorner = corner;
+                    break;
+                }
+            }
+            
+            // If no strategic corner found, take one that's not opposite to player's corner
+            if (!bestCorner) {
+                for (const corner of availableCorners) {
+                    const oppositeCorner = 8 - corner; // 0<>8, 2<>6
+                    if (!x_cells.includes(oppositeCorner)) {
+                        bestCorner = corner;
+                        break;
+                    }
+                }
+            }
+            
+            // If all else fails, take any available corner
+            if (!bestCorner) {
+                bestCorner = availableCorners[0];
+            }
+            
+            claim(bestCorner, 'o');
             return;
         }
 
-        // Step 5: Take a side if nothing else is available
+        // Step 6: Take any available side
         const sideCells = [1, 3, 5, 7];
         const availableSides = sideCells.filter(cell => availableCells.includes(cell));
         if (availableSides.length > 0) {
