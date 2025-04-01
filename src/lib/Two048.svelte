@@ -572,14 +572,10 @@
             grids = newGrid;
 
             // Update score with the maximum tile value
-            const maxTile = Math.max(...grids.flat());
-            if (maxTile > score) {
-                score = maxTile;
-
-                if (record < score && BROWSER) {
-                    record = score;
-                    localStorage.setItem("2048-record", record.toString());
-                }
+            score = grids.flat().reduce((a, b) => a + b, 0);
+            if (record < score && BROWSER) {
+                record = score;
+                localStorage.setItem("2048-record", record.toString());
             }
 
             pendingNewTile = true;
