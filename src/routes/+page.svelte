@@ -10,6 +10,7 @@
     import Sudoku from "$lib/Sudoku.svelte";
     import Platformer from "$lib/Platformer.svelte";
     import Two048 from "$lib/Two048.svelte";
+    import Tanks from "$lib/Tanks.svelte";
 
     const games: {
         [key: string]: {        // Game name (Same as the import/file name)
@@ -62,6 +63,12 @@
             published: true,
             emoji: "1234"
         },
+        "Tanks": {
+            label: "Tanks",
+            component: Tanks,
+            published: false,
+            emoji: "tank"
+        },
     }; 
 
     let selector: {
@@ -70,8 +77,8 @@
         label: string,
     } = $state({
         index: 0,
-        value: "Two048",
-        label: "Two048",
+        value: "Tanks",
+        label: "Tanks",
     });
 </script>
 
